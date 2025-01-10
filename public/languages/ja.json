@@ -1,0 +1,51 @@
+{
+  "title": "GEAK",
+  "language": {
+    "ja": "日本語",
+    "en": "English"
+  },
+  "OGP": {
+    "title": "GEAK",
+    "description": "Minecraftのためのツールボックス"
+  },
+  "theme": {
+    "sr": "テーマの変更",
+    "light": "ライト",
+    "dark": "ダーク",
+    "system": "システム"
+  },
+  "sidebar": {
+    "search": {
+      "title": "検索",
+      "items": {
+        "ultimate": "究極検索",
+        "models": "構造物検索",
+        "biomes": "バイオーム検索",
+        "papers": "論文検索"
+      }
+    },
+    "simulator": {
+      "title": "シミュレーター",
+      "items": {
+        "enchantments": "エンチャント"
+      }
+    },
+    "generator": {
+      "title": "生成器",
+      "items": {
+        "recipes": "レシピ"
+      }
+    },
+    "competition": {
+      "title": "コンテスト",
+      "items": {
+        "generators": "生成器",
+        "agents": "エージェント"
+      }
+    }
+  },
+  "home": {
+    "title": "GEAK",
+    "description": "GEAKはMinecraftのためのツールボックスです。"
+  }
+}

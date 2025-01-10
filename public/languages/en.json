@@ -1,0 +1,51 @@
+{
+  "title": "GEAK",
+  "language": {
+    "ja": "日本語",
+    "en": "English"
+  },
+  "OGP": {
+    "title": "GEAK",
+    "description": "Toolbox for Minecraft"
+  },
+  "theme": {
+    "sr": "Change Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "sidebar": {
+    "search": {
+      "title": "Search",
+      "items": {
+        "ultimate": "Ultimate",
+        "models": "Models",
+        "biomes": "Biome",
+        "papers": "Paper"
+      }
+    },
+    "simulator": {
+      "title": "Simulator",
+      "items": {
+        "enchantments": "Enchantments"
+      }
+    },
+    "generator": {
+      "title": "Generator",
+      "items": {
+        "recipes": "Recipes"
+      }
+    },
+    "competition": {
+      "title": "Competition",
+      "items": {
+        "generators": "Generators",
+        "agents": "Agents"
+      }
+    }
+  },
+  "home": {
+    "title": "GEAK",
+    "description": "GEAK is a toolbox for Minecraft."
+  }
+}
