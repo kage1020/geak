@@ -20,6 +20,7 @@ export type Translation = {
       items: {
         ultimate: string;
         models: string;
+        seeds: string;
         biomes: string;
         papers: string;
       };

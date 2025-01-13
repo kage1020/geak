@@ -20,6 +20,7 @@
       "items": {
         "ultimate": "究極検索",
         "models": "構造物検索",
+        "seeds": "シード値検索",
         "biomes": "バイオーム検索",
         "papers": "論文検索"
       }

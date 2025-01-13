@@ -40,6 +40,11 @@ export async function AppSidebar({ t }: AppSidebarProps) {
           disabled: true,
         },
         {
+          title: t.sidebar.search.items.seeds,
+          href: '/search/seeds',
+          disabled: true,
+        },
+        {
           title: t.sidebar.search.items.biomes,
           href: '/search/biomes',
           disabled: true,
