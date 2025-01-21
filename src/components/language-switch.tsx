@@ -1,6 +1,3 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
 import { GlobeIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,6 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Language, Languages } from '@/lib/const';
 import { Translation } from '@/types/translation';
+import { Link } from '@/components/navigation';
 
 interface LanguageSwitchProps {
   locale: Language;
@@ -18,8 +16,6 @@ interface LanguageSwitchProps {
 }
 
 export function LanguageSwitch({ locale, t }: LanguageSwitchProps) {
-  const router = useRouter();
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,8 +26,8 @@ export function LanguageSwitch({ locale, t }: LanguageSwitchProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         {Languages.map((language) => (
-          <DropdownMenuItem key={language} onClick={() => router.push(language)}>
-            {t[language]}
+          <DropdownMenuItem key={language} asChild className='cursor-pointer'>
+            <Link locale={language}>{t[language]}</Link>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

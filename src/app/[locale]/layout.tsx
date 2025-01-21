@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { Header } from '@/components/header';
 import { Language } from '@/lib/const';
 import { getTranslation } from '@/lib/i18n';
-import { Header } from './header';
 import { AppSidebar } from './sidebar';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 interface HomeLayoutParams {
   params: Promise<{ locale: Language }>;

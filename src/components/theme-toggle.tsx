@@ -16,7 +16,7 @@ interface ThemeToggleProps {
 }
 
 export function ThemeToggle({ t }: ThemeToggleProps) {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -28,9 +28,15 @@ export function ThemeToggle({ t }: ThemeToggleProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        <DropdownMenuItem onClick={() => setTheme('light')}>{t.light}</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>{t.dark}</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>{t.system}</DropdownMenuItem>
+        <DropdownMenuItem disabled={theme === 'light'} onClick={() => setTheme('light')}>
+          {t.light}
+        </DropdownMenuItem>
+        <DropdownMenuItem disabled={theme === 'dark'} onClick={() => setTheme('dark')}>
+          {t.dark}
+        </DropdownMenuItem>
+        <DropdownMenuItem disabled={theme === 'system'} onClick={() => setTheme('system')}>
+          {t.system}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

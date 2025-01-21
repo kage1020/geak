@@ -1,3 +1,4 @@
+import { BoxIcon, ChevronRightIcon, Code2Icon, LockIcon, SearchIcon } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import {
   Sidebar,
@@ -14,73 +15,77 @@ import {
 } from '@/components/ui/sidebar';
 import { Translation } from '@/types/translation';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { BoxIcon, ChevronRightIcon, Code2Icon, LockIcon, SearchIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from '@/components/navigation';
+import { routes } from '@/lib/routes';
 
-interface AppSidebarProps {
-  t: Translation;
-}
-
-export async function AppSidebar({ t }: AppSidebarProps) {
-  const sidebarItems = [
+function getItems(t: Translation) {
+  return [
     {
       title: t.sidebar.search.title,
-      href: '/search',
+      href: routes.search.root,
       icon: SearchIcon,
       items: [
         {
           title: t.sidebar.search.items.ultimate,
-          href: '/search',
+          href: routes.search.root,
           disabled: true,
         },
         {
           title: t.sidebar.search.items.models,
-          href: '/search/models',
+          href: routes.search.models,
           disabled: true,
         },
         {
           title: t.sidebar.search.items.seeds,
-          href: '/search/seeds',
+          href: routes.search.seeds,
           disabled: true,
         },
         {
           title: t.sidebar.search.items.biomes,
-          href: '/search/biomes',
+          href: routes.search.biomes,
           disabled: true,
         },
         {
           title: t.sidebar.search.items.papers,
-          href: '/search/papers',
+          href: routes.search.papers,
           disabled: true,
         },
       ],
     },
     {
       title: t.sidebar.simulator.title,
-      href: '/simulator',
+      href: routes.simulator.root,
       icon: BoxIcon,
       items: [
         {
           title: t.sidebar.simulator.items.enchantments,
-          href: '/simulator/enchantments',
+          href: routes.simulator.enchantments,
           disabled: true,
         },
       ],
     },
     {
       title: t.sidebar.generator.title,
-      href: '/generator',
+      href: routes.generator.root,
       icon: Code2Icon,
       items: [
         {
           title: t.sidebar.generator.items.recipes,
-          href: '/generator/recipes',
+          href: routes.generator.recipes,
           disabled: true,
         },
       ],
     },
   ];
+}
+
+interface AppSidebarProps {
+  t: Translation;
+}
+
+export async function AppSidebar({ t }: AppSidebarProps) {
+  const sidebarItems = getItems(t);
 
   return (
     <Sidebar collapsible='icon'>
