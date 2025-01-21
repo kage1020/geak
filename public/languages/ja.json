@@ -14,6 +14,11 @@
     "dark": "ダーク",
     "system": "システム"
   },
+  "auth": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "usernameFallback": "ユーザー"
+  },
   "sidebar": {
     "search": {
       "title": "検索",

@@ -14,6 +14,11 @@ export type Translation = {
     dark: string;
     system: string;
   };
+  auth: {
+    login: string;
+    logout: string;
+    usernameFallback: string;
+  };
   sidebar: {
     search: {
       title: string;
