@@ -18,6 +18,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Button } from '@/components/ui/button';
 import { Link } from '@/components/navigation';
 import { routes } from '@/lib/routes';
+import { SidebarCloseLink } from './sidebar-close-link';
 
 function getItems(t: Translation) {
   return [
@@ -110,7 +111,7 @@ export async function AppSidebar({ t }: AppSidebarProps) {
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip={group.title}>
                       <group.icon />
-                      <Link href={group.href}>{group.title}</Link>
+                      <SidebarCloseLink href={group.href}>{group.title}</SidebarCloseLink>
                       <ChevronRightIcon className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
@@ -124,7 +125,7 @@ export async function AppSidebar({ t }: AppSidebarProps) {
                                 variant='ghost'
                                 size='sm'
                                 className='w-full justify-between'
-                                disabled={subItem.disabled}
+                                disabled
                               >
                                 {subItem.title}
                                 <LockIcon />
@@ -138,11 +139,13 @@ export async function AppSidebar({ t }: AppSidebarProps) {
                                 size='sm'
                                 className='w-full justify-start'
                                 asChild
-                                disabled={subItem.disabled}
                               >
-                                <Link href={subItem.href} className='flex justify-between'>
+                                <SidebarCloseLink
+                                  href={subItem.href}
+                                  className='flex justify-between'
+                                >
                                   {subItem.title}
-                                </Link>
+                                </SidebarCloseLink>
                               </Button>
                             </SidebarMenuSubButton>
                           )}

@@ -24,7 +24,7 @@ export function LanguageSwitch({ locale, t }: LanguageSwitchProps) {
           <span>{t[locale]}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end'>
+      <DropdownMenuContent align='center'>
         {Languages.map((language) => (
           <DropdownMenuItem key={language} asChild className='cursor-pointer'>
             <Link locale={language}>{t[language]}</Link>

@@ -27,7 +27,7 @@ export function ThemeToggle({ t }: ThemeToggleProps) {
           <span className='sr-only'>{t.sr}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end'>
+      <DropdownMenuContent align='center'>
         <DropdownMenuItem disabled={theme === 'light'} onClick={() => setTheme('light')}>
           {t.light}
         </DropdownMenuItem>
