@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { getLocale, getTranslation } from '@/lib/i18n';
+import { CanvasProvider } from './canvas-provider';
 import { ThemeProvider } from './theme-provider';
 import './globals.css';
 
@@ -23,13 +24,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TooltipProvider>{children}</TooltipProvider>
+        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+          <TooltipProvider>
+            <CanvasProvider>{children}</CanvasProvider>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
