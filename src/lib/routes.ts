@@ -15,4 +15,9 @@ export const routes = {
     root: '/simulator',
     enchantments: '/simulator/enchantments',
   },
+  competition: {
+    root: '/competition',
+    generators: '/competition/generators',
+    agents: '/competition/agents',
+  },
 } as const;

@@ -1,4 +1,11 @@
-import { BoxIcon, ChevronRightIcon, Code2Icon, LockIcon, SearchIcon } from 'lucide-react';
+import {
+  BoxIcon,
+  ChevronRightIcon,
+  Code2Icon,
+  LockIcon,
+  MedalIcon,
+  SearchIcon,
+} from 'lucide-react';
 import { Logo } from '@/components/logo';
 import {
   Sidebar,
@@ -74,6 +81,23 @@ function getItems(t: Translation) {
         {
           title: t.sidebar.generator.items.recipes,
           href: routes.generator.recipes,
+          disabled: true,
+        },
+      ],
+    },
+    {
+      title: t.sidebar.competition.title,
+      href: routes.competition.root,
+      icon: MedalIcon,
+      items: [
+        {
+          title: t.sidebar.competition.items.generators,
+          href: routes.competition.generators,
+          disabled: true,
+        },
+        {
+          title: t.sidebar.competition.items.agents,
+          href: routes.competition.agents,
           disabled: true,
         },
       ],
