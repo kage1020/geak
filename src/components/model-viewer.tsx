@@ -9,6 +9,7 @@ interface BlockProps {
   name: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Block({ position, name }: BlockProps) {
   const texture = useTexture(`/textures/${name.replace('minecraft:', '')}.png`);
 
@@ -30,6 +31,7 @@ interface NbtViewerProps {
   >;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function ModelViewer({ data }: NbtViewerProps) {
   return (
     <div className='relative w-full h-full'>
@@ -41,13 +43,13 @@ export function ModelViewer({ data }: NbtViewerProps) {
         <Bounds fit clip observe>
           <group position={[0, 0, 0]}>
             <group rotation={[0, 0, 0]}>
-              {data.blocks.value?.items?.map((item, i) => (
+              {/* {data.blocks.value?.items?.map((item, i) => (
                 <Block
                   key={i}
                   position={item.pos.value.items}
                   name={data.palette.value.items[item.state.value].Name.value}
                 />
-              ))}
+              ))} */}
             </group>
           </group>
         </Bounds>
