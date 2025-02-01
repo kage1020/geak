@@ -1,18 +1,11 @@
 import 'server-only';
-import { promises as fs } from 'node:fs';
 import { headers } from 'next/headers';
 import { Language, Languages } from '@/lib/const';
 import { Translation } from '@/types/translation';
 
 export const getTranslation = async (initialLocale?: string) => {
   const locale = validateLocale(initialLocale ?? '') ? initialLocale : await getLocale();
-  const translations = await fs.readFile(
-    process.cwd() +
-      (process.env.NODE_ENV === 'development'
-        ? `/public/languages/${locale}.json`
-        : `/languages/${locale}.json`),
-    'utf-8'
-  );
+  const translations = await import(`/languages/${locale}.json`).catch(() => '{}');
   try {
     return JSON.parse(translations) as Translation;
   } catch (error) {
