@@ -1,5 +1,5 @@
 import 'server-only';
-import { promises as fs } from 'fs';
+import { promises as fs } from 'node:fs';
 import { headers } from 'next/headers';
 import { Language, Languages } from '@/lib/const';
 import { Translation } from '@/types/translation';
