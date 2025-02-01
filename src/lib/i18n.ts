@@ -5,7 +5,7 @@ import { Translation } from '@/types/translation';
 
 export const getTranslation = async (initialLocale?: string) => {
   const locale = validateLocale(initialLocale ?? '') ? initialLocale : await getLocale();
-  const translations = await import(`/languages/${locale}.json`).catch(() => '{}');
+  const translations = await import(`../../public/languages/${locale}.json`).catch(() => '{}');
   try {
     return JSON.parse(translations) as Translation;
   } catch (error) {
