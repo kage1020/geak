@@ -1,28 +1,15 @@
-export interface DataInput {
-  readByte(): number;
-  readInt(): number;
-  readShort(): number;
-  readFloat(): number;
-  readDouble(): number;
-  readBytes(length: number): ArrayLike<number>;
-  readString(): string;
-}
-
-export interface RawDataInputOptions {
+export interface DataInputOptions {
   littleEndian?: boolean;
   offset?: number;
 }
 
-export class RawDataInput implements DataInput {
+export class DataInput {
   private readonly littleEndian: boolean;
   public offset: number;
   private readonly array: Uint8Array;
   private readonly view: DataView;
 
-  constructor(
-    input: Uint8Array | ArrayLike<number> | ArrayBufferLike,
-    options?: RawDataInputOptions
-  ) {
+  constructor(input: Uint8Array | ArrayLike<number> | ArrayBuffer, options?: DataInputOptions) {
     this.littleEndian = options?.littleEndian ?? false;
     this.offset = options?.offset ?? 0;
     this.array = input instanceof Uint8Array ? input : new Uint8Array(input);
@@ -38,19 +25,33 @@ export class RawDataInput implements DataInput {
     return value;
   }
 
-  public readByte = this.readNumber.bind(this, 'getInt8', 1);
-  public readShort = this.readNumber.bind(this, 'getInt16', 2);
-  public readInt = this.readNumber.bind(this, 'getInt32', 4);
-  public readFloat = this.readNumber.bind(this, 'getFloat32', 4);
-  public readDouble = this.readNumber.bind(this, 'getFloat64', 8);
+  public readByte() {
+    return this.readNumber('getInt8', 1);
+  }
 
-  public readBytes(length: number): ArrayLike<number> {
+  public readShort() {
+    return this.readNumber('getInt16', 2);
+  }
+
+  public readInt() {
+    return this.readNumber('getInt32', 4);
+  }
+
+  public readFloat() {
+    return this.readNumber('getFloat32', 4);
+  }
+
+  public readDouble() {
+    return this.readNumber('getFloat64', 8);
+  }
+
+  public readBytes(length: number) {
     const bytes = this.array.slice(this.offset, this.offset + length);
     this.offset += length;
     return bytes;
   }
 
-  public readString(): string {
+  public readString() {
     const length = this.readShort();
     const bytes = this.readBytes(length);
     const decoder = new TextDecoder();

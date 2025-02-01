@@ -1,20 +1,20 @@
-import { DataInput } from '@/lib/nbt/io/input';
-import { DataOutput } from '@/lib/nbt/io/output';
-import { Json, JsonValue } from '@/lib/nbt/json';
-import { NbtAbstractList } from '@/lib/nbt/tags/abstract-list';
-import { NbtTag } from '@/lib/nbt/tags/base';
-import { NbtByte } from '@/lib/nbt/tags/byte';
-import { NbtByteArray } from '@/lib/nbt/tags/byte-array';
-import { NbtCompound } from '@/lib/nbt/tags/compound';
-import { NbtDouble } from '@/lib/nbt/tags/double';
-import { NbtFloat } from '@/lib/nbt/tags/float';
-import { NbtInt } from '@/lib/nbt/tags/int';
-import { NbtIntArray } from '@/lib/nbt/tags/int-array';
-import { NbtLong } from '@/lib/nbt/tags/long';
-import { NbtLongArray } from '@/lib/nbt/tags/long-array';
-import { NbtShort } from '@/lib/nbt/tags/short';
-import { NbtString } from '@/lib/nbt/tags/string';
-import { NbtType } from '@/lib/nbt/tags/type';
+import { DataInput } from '../io/input';
+import { DataOutput } from '../io/output';
+import { Json, JsonValue } from '../json';
+import { NbtAbstractList } from './abstract-list';
+import { NbtTag } from './base';
+import { NbtByte } from './byte';
+import { NbtByteArray } from './byte-array';
+import { NbtCompound } from './compound';
+import { NbtDouble } from './double';
+import { NbtFloat } from './float';
+import { NbtInt } from './int';
+import { NbtIntArray } from './int-array';
+import { NbtLong } from './long';
+import { NbtLongArray } from './long-array';
+import { NbtShort } from './short';
+import { NbtString } from './string';
+import { NbtType } from './type';
 
 export class NbtList<T extends NbtTag = NbtTag> extends NbtAbstractList<T> {
   private type: number;
@@ -171,7 +171,7 @@ export class NbtList<T extends NbtTag = NbtTag> extends NbtAbstractList<T> {
   public static fromJson(value: JsonValue) {
     const obj = Json.readObject(value) ?? {};
     const type = Json.readNumber(obj.type) ?? NbtType.Compound;
-    const items = (Json.readArray(obj.items) ?? []).flatMap((v) =>
+    const items = (Json.readArray<JsonValue>(obj.items) ?? []).flatMap((v) =>
       v !== undefined ? [NbtTag.fromJson(v, type)] : []
     );
     return new NbtList(items, type);

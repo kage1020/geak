@@ -1,21 +1,21 @@
-import { DataInput } from '@/lib/nbt/io/input';
-import { DataOutput } from '@/lib/nbt/io/output';
-import { Json, JsonValue } from '@/lib/nbt/json';
-import { StringReader } from '@/lib/nbt/string-reader';
-import { NbtByte } from '@/lib/nbt/tags/byte';
-import { NbtByteArray } from '@/lib/nbt/tags/byte-array';
-import { NbtCompound } from '@/lib/nbt/tags/compound';
-import { NbtDouble } from '@/lib/nbt/tags/double';
-import { NbtEnd } from '@/lib/nbt/tags/end';
-import { NbtFloat } from '@/lib/nbt/tags/float';
-import { NbtInt } from '@/lib/nbt/tags/int';
-import { NbtIntArray } from '@/lib/nbt/tags/int-array';
-import { NbtList } from '@/lib/nbt/tags/list';
-import { NbtLong } from '@/lib/nbt/tags/long';
-import { NbtLongArray } from '@/lib/nbt/tags/long-array';
-import { NbtShort } from '@/lib/nbt/tags/short';
-import { NbtString } from '@/lib/nbt/tags/string';
-import { NbtType } from '@/lib/nbt/tags/type';
+import { DataInput } from '../io/input';
+import { DataOutput } from '../io/output';
+import { Json, JsonValue } from '../json';
+import { StringReader } from '../string-reader';
+import { NbtByte } from './byte';
+import { NbtByteArray } from './byte-array';
+import { NbtCompound } from './compound';
+import { NbtDouble } from './double';
+import { NbtEnd } from './end';
+import { NbtFloat } from './float';
+import { NbtInt } from './int';
+import { NbtIntArray } from './int-array';
+import { NbtList } from './list';
+import { NbtLong } from './long';
+import { NbtLongArray } from './long-array';
+import { NbtShort } from './short';
+import { NbtString } from './string';
+import { NbtType } from './type';
 
 interface NbtFactory {
   create(): NbtTag;
@@ -116,7 +116,7 @@ export abstract class NbtTag {
     return '';
   }
 
-  public toJsonWithId(): JsonValue {
+  public toJsonWithId() {
     return {
       type: this.getId(),
       value: this.toJson(),
@@ -151,7 +151,7 @@ export abstract class NbtTag {
 
   public static fromString(input: string | StringReader) {
     const reader = typeof input === 'string' ? new StringReader(input) : input;
-    return this.getFactory(NbtType.Compound).fromString(reader);
+    return NbtCompound.fromString(reader);
   }
 
   public static fromJson(value: JsonValue, id: NbtType = NbtType.Compound) {

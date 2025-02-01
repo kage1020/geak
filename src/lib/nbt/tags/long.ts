@@ -1,8 +1,8 @@
-import { DataInput } from '@/lib/nbt/io/input';
-import { DataOutput } from '@/lib/nbt/io/output';
-import { JsonValue } from '@/lib/nbt/json';
-import { NbtTag } from '@/lib/nbt/tags/base';
-import { NbtType } from '@/lib/nbt/tags/type';
+import { DataInput } from '../io/input';
+import { DataOutput } from '../io/output';
+import { JsonValue } from '../json';
+import { NbtTag } from './base';
+import { NbtType } from './type';
 
 export type NbtLongPair = [number, number];
 
@@ -15,7 +15,7 @@ export class NbtLong extends NbtTag {
     this.value = NbtLong.toPair(value);
   }
 
-  public static toPair(value: NbtLongPair | bigint): NbtLongPair {
+  public static toPair(value: NbtLongPair | bigint) {
     return Array.isArray(value) ? value : NbtLong.bigintToPair(value);
   }
 
@@ -24,17 +24,17 @@ export class NbtLong extends NbtTag {
     return [NbtLong.dataview.getInt32(0), NbtLong.dataview.getInt32(4)];
   }
 
-  public static pairToBigint(value: NbtLongPair): bigint {
+  public static pairToBigint(value: NbtLongPair) {
     NbtLong.dataview.setInt32(0, Number(value[0]));
     NbtLong.dataview.setInt32(4, Number(value[1]));
     return NbtLong.dataview.getBigInt64(0);
   }
 
-  public static pairToString(value: NbtLongPair): string {
+  public static pairToString(value: NbtLongPair) {
     return NbtLong.pairToBigint(value).toString();
   }
 
-  public static pairToNumber(value: NbtLongPair): number {
+  public static pairToNumber(value: NbtLongPair) {
     return Number(NbtLong.pairToBigint(value));
   }
 

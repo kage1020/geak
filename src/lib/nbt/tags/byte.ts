@@ -1,8 +1,8 @@
-import { DataInput } from '@/lib/nbt/io/input';
-import { DataOutput } from '@/lib/nbt/io/output';
-import { Json, JsonValue } from '@/lib/nbt/json';
-import { NbtTag } from '@/lib/nbt/tags/base';
-import { NbtType } from '@/lib/nbt/tags/type';
+import { DataInput } from '../io/input';
+import { DataOutput } from '../io/output';
+import { Json, JsonValue } from '../json';
+import { NbtTag } from './base';
+import { NbtType } from './type';
 
 export class NbtByte extends NbtTag {
   public static readonly ZERO = new NbtByte(0);
@@ -18,7 +18,7 @@ export class NbtByte extends NbtTag {
     return NbtType.Byte;
   }
 
-  public override equals(other: NbtTag): boolean {
+  public override equals(other: NbtTag) {
     return other.isByte() && this.value === other.value;
   }
 

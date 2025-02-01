@@ -1,21 +1,21 @@
-import { DataInput } from '@/lib/nbt/io/input';
-import { DataOutput } from '@/lib/nbt/io/output';
-import { Json, JsonValue } from '@/lib/nbt/json';
-import { NbtParser } from '@/lib/nbt/parser';
-import { StringReader } from '@/lib/nbt/string-reader';
-import { NbtTag } from '@/lib/nbt/tags/base';
-import { NbtByte } from '@/lib/nbt/tags/byte';
-import { NbtByteArray } from '@/lib/nbt/tags/byte-array';
-import { NbtDouble } from '@/lib/nbt/tags/double';
-import { NbtFloat } from '@/lib/nbt/tags/float';
-import { NbtInt } from '@/lib/nbt/tags/int';
-import { NbtIntArray } from '@/lib/nbt/tags/int-array';
-import { NbtList } from '@/lib/nbt/tags/list';
-import { NbtLong } from '@/lib/nbt/tags/long';
-import { NbtLongArray } from '@/lib/nbt/tags/long-array';
-import { NbtShort } from '@/lib/nbt/tags/short';
-import { NbtString } from '@/lib/nbt/tags/string';
-import { NbtType } from '@/lib/nbt/tags/type';
+import { DataInput } from '../io/input';
+import { DataOutput } from '../io/output';
+import { Json, JsonValue } from '../json';
+import { NbtParser } from '../parser';
+import { StringReader } from '../string-reader';
+import { NbtTag } from './base';
+import { NbtByte } from './byte';
+import { NbtByteArray } from './byte-array';
+import { NbtDouble } from './double';
+import { NbtFloat } from './float';
+import { NbtInt } from './int';
+import { NbtIntArray } from './int-array';
+import { NbtList } from './list';
+import { NbtLong } from './long';
+import { NbtLongArray } from './long-array';
+import { NbtShort } from './short';
+import { NbtString } from './string';
+import { NbtType } from './type';
 
 export class NbtCompound extends NbtTag {
   private readonly properties: Map<string, NbtTag>;
@@ -34,7 +34,7 @@ export class NbtCompound extends NbtTag {
       other.isCompound() &&
       this.size === other.size &&
       [...this.properties.entries()].every(([key, value]) => {
-        const otherValue = other.properties.get(key);
+        const otherValue = other.properties.get(key) as NbtTag | undefined;
         return otherValue !== undefined && value.equals(otherValue);
       })
     );
@@ -143,9 +143,7 @@ export class NbtCompound extends NbtTag {
     return this.properties.size;
   }
 
-  public map<U>(
-    fn: (key: string, value: NbtTag, compound: this) => [string, U]
-  ): Record<string, U> {
+  public map<U>(fn: (key: string, value: NbtTag, compound: this) => [string, U]) {
     return Object.fromEntries(
       [...this.properties.entries()].map(([key, value]) => fn(key, value, this))
     );
@@ -169,7 +167,7 @@ export class NbtCompound extends NbtTag {
     return this;
   }
 
-  public override toString(): string {
+  public override toString() {
     const pairs = [];
     for (const [key, tag] of this.properties.entries()) {
       const needsQuotes = key.split('').some((c) => !StringReader.isAllowedInUnquotedString(c));
@@ -220,11 +218,11 @@ export class NbtCompound extends NbtTag {
     return new NbtCompound();
   }
 
-  public static fromString(reader: StringReader): NbtTag {
+  public static fromString(reader: StringReader) {
     return NbtParser.readTag(reader);
   }
 
-  public static fromJson(value: JsonValue): NbtCompound {
+  public static fromJson(value: JsonValue) {
     const properties = Json.readMap(value, (e) => {
       const { type, value } = Json.readObject(e) ?? {};
       const id = Json.readNumber(type);

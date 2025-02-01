@@ -1,10 +1,10 @@
-import { DataInput } from '@/lib/nbt/io/input';
-import { DataOutput } from '@/lib/nbt/io/output';
-import { Json, JsonValue } from '@/lib/nbt/json';
-import { NbtAbstractList } from '@/lib/nbt/tags/abstract-list';
-import { NbtTag } from '@/lib/nbt/tags/base';
-import { NbtInt } from '@/lib/nbt/tags/int';
-import { NbtType } from '@/lib/nbt/tags/type';
+import { DataInput } from '../io/input';
+import { DataOutput } from '../io/output';
+import { Json, JsonValue } from '../json';
+import { NbtAbstractList } from './abstract-list';
+import { NbtTag } from './base';
+import { NbtInt } from './int';
+import { NbtType } from './type';
 
 export class NbtIntArray extends NbtAbstractList<NbtInt> {
   constructor(items?: ArrayLike<number | NbtInt>) {
@@ -44,7 +44,7 @@ export class NbtIntArray extends NbtAbstractList<NbtInt> {
     return this.items.map((e) => e.getAsNumber());
   }
 
-  public override toJson(): JsonValue {
+  public override toJson() {
     return this.items.map((e) => e.getAsNumber());
   }
 

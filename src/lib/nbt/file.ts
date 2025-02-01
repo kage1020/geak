@@ -1,9 +1,9 @@
-import { DataInput, RawDataInput } from '@/lib/nbt/io/input';
-import { DataOutput, RawDataOutput } from '@/lib/nbt/io/output';
-import { Json, JsonValue } from '@/lib/nbt/json';
-import { NbtCompound } from '@/lib/nbt/tags/compound';
-import { NbtType } from '@/lib/nbt/tags/type';
 import Pako from 'pako';
+import { DataInput } from './io/input';
+import { DataOutput } from './io/output';
+import { Json, JsonValue } from './json';
+import { NbtCompound } from './tags/compound';
+import { NbtType } from './tags/type';
 
 export type NbtCompressionMode = 'gzip' | 'zlib' | 'none';
 
@@ -12,31 +12,6 @@ export interface NbtCreateOptions {
   compression?: NbtCompressionMode;
   littleEndian?: boolean;
   bedrockHeader?: number | boolean;
-}
-
-export function hasGzipHeader(array: Uint8Array) {
-  const head = array.slice(0, 2);
-  return head.length === 2 && head[0] === 0x1f && head[1] === 0x8b;
-}
-
-export function hasZlibHeader(array: Uint8Array) {
-  const head = array.slice(0, 2);
-  return (
-    head.length === 2 &&
-    head[0] === 0x78 &&
-    (head[1] === 0x01 || head[1] === 0x5e || head[1] === 0x9c || head[2] === 0xda)
-  );
-}
-
-export function getBedrockHeader(array: Uint8Array) {
-  const head = array.slice(0, 8);
-  const view = new DataView(head.buffer, head.byteOffset);
-  const version = view.getUint32(0, true);
-  const length = view.getUint32(4, true);
-  if (head.length === 8 && version > 0 && version < 100 && length === array.byteLength - 8) {
-    return version;
-  }
-  return undefined;
 }
 
 export class NbtFile {
@@ -59,7 +34,7 @@ export class NbtFile {
 
   public write() {
     const littleEndian = this.littleEndian === true || this.bedrockHeader !== undefined;
-    const output = new RawDataOutput({ littleEndian, offset: this.bedrockHeader && 8 });
+    const output = new DataOutput({ littleEndian, offset: this.bedrockHeader && 8 });
     this.writeNamedTag(output);
 
     if (this.bedrockHeader !== undefined) {
@@ -89,6 +64,31 @@ export class NbtFile {
     };
   }
 
+  private static hasGzipHeader(array: Uint8Array) {
+    const head = array.slice(0, 2);
+    return head.length === 2 && head[0] === 0x1f && head[1] === 0x8b;
+  }
+
+  private static hasZlibHeader(array: Uint8Array) {
+    const head = array.slice(0, 2);
+    return (
+      head.length === 2 &&
+      head[0] === 0x78 &&
+      (head[1] === 0x01 || head[1] === 0x5e || head[1] === 0x9c || head[2] === 0xda)
+    );
+  }
+
+  private static getBedrockHeader(array: Uint8Array) {
+    const head = array.slice(0, 8);
+    const view = new DataView(head.buffer, head.byteOffset);
+    const version = view.getUint32(0, true);
+    const length = view.getUint32(4, true);
+    if (head.length === 8 && version > 0 && version < 100 && length === array.byteLength - 8) {
+      return version;
+    }
+    return undefined;
+  }
+
   public static create(options: NbtCreateOptions = {}) {
     const name = options.name ?? NbtFile.DEFAULT_NAME;
     const root = NbtCompound.create();
@@ -107,26 +107,26 @@ export class NbtFile {
       typeof options.bedrockHeader === 'number'
         ? options.bedrockHeader
         : options.bedrockHeader
-        ? getBedrockHeader(array)
+        ? NbtFile.getBedrockHeader(array)
         : undefined;
     const isGzipCompressed =
       options.compression === 'gzip' ||
-      (!bedrockHeader && options.compression === undefined && hasGzipHeader(array));
+      (!bedrockHeader && options.compression === undefined && NbtFile.hasGzipHeader(array));
     const isZlibCompressed =
       options.compression === 'zlib' ||
-      (!bedrockHeader && options.compression === undefined && hasZlibHeader(array));
+      (!bedrockHeader && options.compression === undefined && NbtFile.hasZlibHeader(array));
 
     const uncompressedData = isZlibCompressed || isGzipCompressed ? Pako.inflate(array) : array;
     const littleEndian = options.littleEndian || bedrockHeader !== undefined;
     const compression = isGzipCompressed ? 'gzip' : isZlibCompressed ? 'zlib' : 'none';
 
-    const input = new RawDataInput(uncompressedData, { littleEndian, offset: bedrockHeader && 8 });
+    const input = new DataInput(uncompressedData, { littleEndian, offset: bedrockHeader && 8 });
     const { name, root } = NbtFile.readNamedTag(input);
 
     return new NbtFile(options.name ?? name, root, compression, littleEndian, bedrockHeader);
   }
 
-  public toJson(): JsonValue {
+  public toJson() {
     return {
       name: this.name,
       root: this.root.toJson(),
@@ -136,7 +136,7 @@ export class NbtFile {
     };
   }
 
-  public static fromJson(value: JsonValue): NbtFile {
+  public static fromJson(value: JsonValue) {
     const obj = Json.readObject(value) ?? {};
     const name = Json.readString(obj.name) ?? '';
     const root = NbtCompound.fromJson(obj.root ?? {});

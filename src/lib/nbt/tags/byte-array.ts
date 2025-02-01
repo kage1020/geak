@@ -1,10 +1,10 @@
-import { DataInput } from '@/lib/nbt/io/input';
-import { DataOutput } from '@/lib/nbt/io/output';
-import { Json, JsonValue } from '@/lib/nbt/json';
-import { NbtAbstractList } from '@/lib/nbt/tags/abstract-list';
-import { NbtTag } from '@/lib/nbt/tags/base';
-import { NbtByte } from '@/lib/nbt/tags/byte';
-import { NbtType } from '@/lib/nbt/tags/type';
+import { DataInput } from '../io/input';
+import { DataOutput } from '../io/output';
+import { Json, JsonValue } from '../json';
+import { NbtAbstractList } from './abstract-list';
+import { NbtTag } from './base';
+import { NbtByte } from './byte';
+import { NbtType } from './type';
 
 export class NbtByteArray extends NbtAbstractList<NbtByte> {
   constructor(items?: ArrayLike<number | NbtByte>) {
@@ -15,7 +15,7 @@ export class NbtByteArray extends NbtAbstractList<NbtByte> {
     return NbtType.ByteArray;
   }
 
-  public override equals(other: NbtTag): boolean {
+  public override equals(other: NbtTag) {
     return (
       other.isByteArray() &&
       this.length === other.length &&
@@ -40,7 +40,7 @@ export class NbtByteArray extends NbtAbstractList<NbtByte> {
     return this.items.map((e) => e.getAsNumber());
   }
 
-  public override toJson(): JsonValue {
+  public override toJson() {
     return this.items.map((e) => e.getAsNumber());
   }
 

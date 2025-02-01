@@ -1,21 +1,10 @@
-export interface DataOutput {
-  writeByte(value: number): void;
-  writeShort(value: number): void;
-  writeInt(value: number): void;
-  writeFloat(value: number): void;
-  writeDouble(value: number): void;
-  writeBytes(bytes: ArrayLike<number>): void;
-  writeString(value: string): void;
-  getData(): Uint8Array;
-}
-
 export interface RawDataOutputOptions {
   littleEndian?: boolean;
   offset?: number;
   initialSize?: number;
 }
 
-export class RawDataOutput implements DataOutput {
+export class DataOutput {
   private readonly littleEndian: boolean;
   public offset: number;
   private buffer: ArrayBuffer;
@@ -32,14 +21,9 @@ export class RawDataOutput implements DataOutput {
 
   private accommodate(size: number) {
     const requiredLength = this.offset + size;
-    if (this.buffer.byteLength >= requiredLength) {
-      return;
-    }
+    if (this.buffer.byteLength >= requiredLength) return;
 
-    let newLength = this.buffer.byteLength;
-    while (newLength < requiredLength) {
-      newLength *= 2;
-    }
+    const newLength = Math.max(this.buffer.byteLength * 2, requiredLength);
 
     const newBuffer = new ArrayBuffer(newLength);
     const newArray = new Uint8Array(newBuffer);
@@ -64,11 +48,25 @@ export class RawDataOutput implements DataOutput {
     this.offset += size;
   }
 
-  public writeByte = this.writeNumber.bind(this, 'setInt8', 1);
-  public writeShort = this.writeNumber.bind(this, 'setInt16', 2);
-  public writeInt = this.writeNumber.bind(this, 'setInt32', 4);
-  public writeFloat = this.writeNumber.bind(this, 'setFloat32', 4);
-  public writeDouble = this.writeNumber.bind(this, 'setFloat64', 8);
+  public writeByte(value: number) {
+    this.writeNumber('setInt8', 1, value);
+  }
+
+  public writeShort(value: number) {
+    this.writeNumber('setInt16', 2, value);
+  }
+
+  public writeInt(value: number) {
+    this.writeNumber('setInt32', 4, value);
+  }
+
+  public writeFloat(value: number) {
+    this.writeNumber('setFloat32', 4, value);
+  }
+
+  public writeDouble(value: number) {
+    this.writeNumber('setFloat64', 8, value);
+  }
 
   public writeBytes(bytes: ArrayLike<number>) {
     this.accommodate(bytes.length);

@@ -17,31 +17,24 @@ export class Json {
     return typeof obj === 'boolean' ? obj : undefined;
   }
 
-  static readObject(obj: JsonValue | undefined): { [x: string]: JsonValue | undefined } | undefined;
-  static readObject(obj: unknown): { [x: string]: unknown } | undefined;
-  static readObject(obj: unknown) {
+  static readObject(obj: JsonValue | unknown) {
     return typeof obj === 'object' && obj !== null && !Array.isArray(obj)
-      ? (obj as { [key: string]: unknown })
+      ? (obj as { [x: string]: JsonValue })
       : undefined;
   }
 
-  static readArray<T>(obj: JsonValue | undefined, parser: (obj?: JsonValue) => T): T[] | undefined;
-  static readArray<T>(obj: JsonValue | undefined): (JsonValue | undefined)[] | undefined;
-  static readArray<T>(obj: unknown, parser: (obj: unknown) => T): T[] | undefined;
-  static readArray<T>(obj: unknown, parser?: (obj: any) => T) {
+  static readArray<T>(obj: JsonValue | unknown, parser?: (obj?: JsonValue | unknown) => T) {
     if (!Array.isArray(obj)) return undefined;
-    if (!parser) return obj;
+    if (!parser) return obj as T[];
     return obj.map((el) => parser(el));
   }
 
-  static readPair<T>(obj: unknown, parser: (obj?: unknown) => T): [T, T] | undefined {
+  static readPair<T>(obj: unknown, parser: (obj?: unknown) => T) {
     if (!Array.isArray(obj)) return undefined;
     return [0, 1].map((i) => parser(obj[i])) as [T, T];
   }
 
-  static readMap<T>(obj: JsonValue | undefined, parser: (obj?: JsonValue) => T): { [x: string]: T };
-  static readMap<T>(obj: unknown, parser: (obj: unknown) => T): { [x: string]: T };
-  static readMap<T>(obj: unknown, parser: (obj: any) => T) {
+  static readMap<T>(obj: JsonValue | unknown, parser: (obj?: JsonValue | unknown) => T) {
     const root = Json.readObject(obj) ?? {};
     return Object.fromEntries(Object.entries(root).map(([k, v]) => [k, parser(v)]));
   }
@@ -55,7 +48,7 @@ export class Json {
     return result ? mapper(result) : undefined;
   }
 
-  static readEnum<T extends string>(obj: unknown, values: readonly T[]): T {
+  static readEnum<T extends string>(obj: unknown, values: readonly T[]) {
     if (typeof obj !== 'string') return values[0];
     if (values.includes(obj as T)) return obj as T;
     return values[0];

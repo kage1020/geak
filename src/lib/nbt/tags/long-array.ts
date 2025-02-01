@@ -1,10 +1,10 @@
-import { DataInput } from '@/lib/nbt/io/input';
-import { DataOutput } from '@/lib/nbt/io/output';
-import { Json, JsonValue } from '@/lib/nbt/json';
-import { NbtAbstractList } from '@/lib/nbt/tags/abstract-list';
-import { NbtTag } from '@/lib/nbt/tags/base';
-import { NbtLong, NbtLongPair } from '@/lib/nbt/tags/long';
-import { NbtType } from '@/lib/nbt/tags/type';
+import { DataInput } from '../io/input';
+import { DataOutput } from '../io/output';
+import { Json, JsonValue } from '../json';
+import { NbtAbstractList } from './abstract-list';
+import { NbtTag } from './base';
+import { NbtLong, NbtLongPair } from './long';
+import { NbtType } from './type';
 
 export class NbtLongArray extends NbtAbstractList<NbtLong> {
   constructor(items?: ArrayLike<NbtLongPair | bigint | NbtLong>) {
@@ -19,7 +19,7 @@ export class NbtLongArray extends NbtAbstractList<NbtLong> {
     return NbtType.LongArray;
   }
 
-  public override equals(other: NbtTag): boolean {
+  public override equals(other: NbtTag) {
     return (
       other.isLongArray() &&
       this.length === other.length &&
@@ -48,7 +48,7 @@ export class NbtLongArray extends NbtAbstractList<NbtLong> {
     return this.items.map((e) => e.getAsPair());
   }
 
-  public override toJson(): JsonValue {
+  public override toJson() {
     return this.items.map((e) => e.getAsPair());
   }
 

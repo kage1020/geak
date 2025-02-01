@@ -1,4 +1,4 @@
-import { NbtTag } from '@/lib/nbt/tags/base';
+import { NbtTag } from './base';
 
 export abstract class NbtAbstractList<T extends NbtTag> extends NbtTag {
   protected items: T[];
@@ -34,11 +34,11 @@ export abstract class NbtAbstractList<T extends NbtTag> extends NbtTag {
     return this.items.length;
   }
 
-  public map<U>(fn: (value: T, index: number) => U): U[] {
+  public map<U>(fn: (value: T, index: number) => U) {
     return this.items.map(fn);
   }
 
-  public filter(fn: (value: T, index: number) => boolean): T[] {
+  public filter(fn: (value: T, index: number) => boolean) {
     return this.items.filter(fn);
   }
 

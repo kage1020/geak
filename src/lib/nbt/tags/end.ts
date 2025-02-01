@@ -1,6 +1,5 @@
-import { JsonValue } from '@/lib/nbt/json';
-import { NbtTag } from '@/lib/nbt/tags/base';
-import { NbtType } from '@/lib/nbt/tags/type';
+import { NbtTag } from './base';
+import { NbtType } from './type';
 
 export class NbtEnd extends NbtTag {
   public static readonly INSTANCE = new NbtEnd();
@@ -29,7 +28,7 @@ export class NbtEnd extends NbtTag {
     return null;
   }
 
-  public override toJson(): JsonValue {
+  public override toJson() {
     return null;
   }
 
