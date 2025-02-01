@@ -17,7 +17,7 @@ export class NbtString extends NbtTag {
     return NbtType.String;
   }
 
-  public override equals(other: NbtTag) {
+  public override equals(other: NbtTag): boolean {
     return other.isString() && this.value === other.value;
   }
 

@@ -19,7 +19,7 @@ export class NbtLongArray extends NbtAbstractList<NbtLong> {
     return NbtType.LongArray;
   }
 
-  public override equals(other: NbtTag) {
+  public override equals(other: NbtTag): boolean {
     return (
       other.isLongArray() &&
       this.length === other.length &&
