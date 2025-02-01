@@ -5,6 +5,8 @@ import { getTranslation } from '@/lib/i18n';
 import { Header } from './header';
 import { AppSidebar } from './sidebar';
 
+export const runtime = 'edge';
+
 interface HomeLayoutParams {
   params: Promise<{ locale: Language }>;
 }
