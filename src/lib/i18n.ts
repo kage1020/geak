@@ -1,17 +1,12 @@
 import 'server-only';
 import { headers } from 'next/headers';
-import { Language, Languages } from '@/lib/const';
+import { Language, Languages, Translations } from '@/lib/const';
 import { Translation } from '@/types/translation';
 
 export const getTranslation = async (initialLocale?: string) => {
-  const locale = validateLocale(initialLocale ?? '') ? initialLocale : await getLocale();
-  const translations = await import(`../../public/languages/${locale}.json`).catch(() => '{}');
-  try {
-    return JSON.parse(translations) as Translation;
-  } catch (error) {
-    console.error(error);
-    return {} as Translation;
-  }
+  const locale = validateLocale(initialLocale ?? '') ? initialLocale! : await getLocale();
+  const translations = Translations[locale as keyof typeof Translations] as Translation;
+  return translations;
 };
 
 export const getLocale = async () => {
