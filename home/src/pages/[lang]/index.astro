@@ -1,0 +1,66 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Hero from '../../components/Hero';
+import Layout from '../../layouts/Layout.astro';
+import GameCard from '../../components/GameCard';
+import { getLanguage, getTranslation, languages } from '../../i18n';
+
+export const getStaticPaths = (() => {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}) satisfies GetStaticPaths;
+
+const lang = getLanguage(Astro.url);
+const t = getTranslation(lang);
+---
+
+<Layout>
+  <div class='min-h-screen bg-slate-900'>
+    <div class='absolute top-4 right-4 z-20'>
+      {
+        Object.entries(languages).map(([code, name]) => (
+          <a
+            href={`/${code}`}
+            class={`px-3 py-1 text-sm ${lang === code ? 'text-white' : 'text-gray-400'} hover:text-white`}
+          >
+            {name}
+          </a>
+        ))
+      }
+    </div>
+    <section class='relative h-[40vh] flex items-center justify-center overflow-hidden'>
+      <div class='absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-600/20'></div>
+      <div class='absolute inset-0 opacity-10 bg-cover bg-center'></div>
+      <div class='container mx-auto px-4 relative z-10'>
+        <Hero
+          client:load
+          translations={{
+            title: t.site.hero.title,
+            subtitle: t.site.hero.subtitle,
+          }}
+        />
+      </div>
+    </section>
+    <section class='py-20'>
+      <div class='container mx-auto px-4'>
+        <h2
+          class='text-3xl md:text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400'
+        >
+          {t.games.title}
+        </h2>
+
+        <div class='flex justify-center gap-8 flex-wrap'>
+          <GameCard
+            client:visible
+            title={t.games.minecraft.title}
+            description={t.games.minecraft.description}
+            url='https://minecraft.geak.dev'
+            imageUrl='https://minecraft.geak.dev/opengraph-image'
+            guideText={t.games.minecraft.description}
+          />
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,21 @@
+{
+  "site": {
+    "title": "GEAK",
+    "description": "The one site to share game information",
+    "hero": {
+      "title": "GEAK",
+      "subtitle": "The one site to share game information"
+    },
+    "about": {
+      "title": "What is GEAK?",
+      "content": "GEAK is a universal utility tool for games. This application is a collection of tools that helps improve your gameplay experience."
+    }
+  },
+  "games": {
+    "title": "Site List",
+    "minecraft": {
+      "title": "GEAK for Minecraft",
+      "description": "A site to share Minecraft information"
+    }
+  }
+}
