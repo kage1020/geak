@@ -1,6 +1,6 @@
 ---
 import { getLanguage, getTranslation } from '../i18n';
-import './src/styles/global.css';
+import '../styles/global.css';
 
 interface LayoutProps {
   title?: string;
@@ -20,6 +20,21 @@ const t = getTranslation(lang);
     <meta name='generator' content={Astro.generator} />
     <title>{t.site.title}</title>
     <meta name='description' content={t.site.description} />
+    <meta property='og:title' content={title} />
+    <meta property='og:description' content={t.site.description} />
+    <meta property='og:image' content='/opengraph-image.svg' />
+    <meta property='og:image:alt' content={t.site.title} />
+    <meta property='og:image:type' content='image/svg+xml' />
+    <meta property='og:image:width' content='1200' />
+    <meta property='og:image:height' content='630' />
+    <meta property='twitter:card' content='summary_large_image' />
+    <meta property='twitter:title' content={t.site.title} />
+    <meta property='twitter:description' content={t.site.description} />
+    <meta property='twitter:image' content='/opengraph-image.svg' />
+    <meta property='twitter:image:alt' content={t.site.title} />
+    <meta property='twitter:image:type' content='image/svg+xml' />
+    <meta property='twitter:image:width' content='1200' />
+    <meta property='twitter:image:height' content='630' />
   </head>
   <body>
     <slot />
